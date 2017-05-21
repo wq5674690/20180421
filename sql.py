@@ -4,7 +4,8 @@
 import pymysql
 
 # 打开数据库连接
-db = pymysql.connect("localhost","root","password","mms" )
+# db = pymysql.connect("localhost","root","password","mms" )
+db = pymysql.connect("sql12.freemysqlhosting.net","sql12175561","1K4gNWqCvy","sql12175561" )
 
 # 使用 cursor() 方法创建一个游标对象 cursor
 cursor = db.cursor()
