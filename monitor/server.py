@@ -3,9 +3,10 @@
 
 import pymysql
 import datetime
+import time
 import socket
 import socketserver  # 导入socketserver模块
-
+from datetime import datetime
 #---------------------------------------------------------------------------
 # socket服务器端
 # 创建一个类，继承自socketserver模块下的BaseRequestHandler类
@@ -21,7 +22,7 @@ class MyServer(socketserver.BaseRequestHandler):
                 print(accept_data)
                 if accept_data == "byebye":
                     break
-                send_data = bytes(input(">>>>>"), encoding="utf8")
+                send_data = bytes("ok", encoding="utf8")
                 conn.sendall(send_data)
             conn.close()
 
@@ -31,24 +32,45 @@ if __name__ == '__main__':
                                             MyServer)  
 
 # 通过调用对象的serve_forever()方法来激活服务端
-    sever.serve_forever()  
+    sever.serve_forever()
 #--------------------------------------------------------------------------------
-
 # 打开数据库连接
-# db = pymysql.connect("localhost","root","password","mms" )
 # db = pymysql.connect("sql12.freemysqlhosting.net","sql12175561","1K4gNWqCvy","sql12175561" )
-
-# # 使用 cursor() 方法创建一个游标对象 cursor
+# db = pymysql.connect("127.0.0.1","root","root","test" )
+# 使用 cursor() 方法创建一个游标对象 cursor
 # cursor = db.cursor()
 
-# # 使用 execute()  方法执行 SQL 查询 
-# cursor.execute("SELECT VERSION()")
+# # 使用 execute() 方法执行 SQL，如果表存在则删除
+# cursor.execute("DROP TABLE IF EXISTS MONITOR")
 
-# # 使用 fetchone() 方法获取单条数据.
-# data = cursor.fetchone()
+# #创建MONITOR表  
+# sql = """CREATE TABLE MONITOR (
+#        id int NOT NULL,
+#          date_time  DATETIME NOT NULL,
+#          cpu FLOAT,
+#          mem FLOAT )"""
+# cursor.execute(sql)  
 
-# print ("Database version : %s " % data)
+# #关闭数据库连接
+# db.close()
+#--------------------------------------------------------------------------------
+# 打开数据库连接
+# db = pymysql.connect("sql12.freemysqlhosting.net","sql12175561","1K4gNWqCvy","sql12175561" )
+# db = pymysql.connect("127.0.0.1","root","root","test" )
+# # 使用cursor()方法获取操作游标 
+# cursor = db.cursor()
+
+# # SQL 插入语句
+# sql = "INSERT INTO MONITOR(id, date_time, cpu, mem) VALUES ('%d', '%s', '%s', '%s')" % \
+#        (1, datetime.now(), 0.15, 0.35)
+# try:
+#    # 执行sql语句
+#    cursor.execute(sql)
+#    # 执行sql语句
+#    db.commit()
+# except:
+#    # 发生错误时回滚
+#    db.rollback()
 
 # # 关闭数据库连接
 # db.close()
-#--------------------------------------------------------------------------------
