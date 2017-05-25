@@ -55,14 +55,14 @@ def get_disk_info():
 # 	
 def sleepTime(hour,min,sec):
 	return (hour*3600 + min*60 + sec)
-# 在设定频率时，需要把时间加2秒钟，才为实际频率时间
-second = sleepTime(0,0,5)
+second = sleepTime(0,0,3)
 
 # socket客户端
 # 主动初始化与服务器端的连接
 sk = socket.socket()
 sk.connect(("127.0.0.1", 8888))
 while True:
+    #这是隔3秒执行一次
     get_cpu_info()
     get_mem_info()
     # get_disk_info()
@@ -70,9 +70,8 @@ while True:
     # for i in range(len(disk_id)):  
     #     arr=(u'%s盘空闲率: %s %%' % (disk_id[i],100 - disk_percent[i]))
     #     print(arr)
-    send_data =  (u"%s_%s_%s" % (datetime.now(),cpu['percent'],mem['percent']))
+    send_data =  (u"当前时间为：%s CPU使用率: %s %% 内存使用率: %s %% " % (datetime.now(),cpu['percent'],mem['percent']))
     sk.sendall(bytes(send_data, encoding="utf8"))
-    # 间隔5秒钟执行一次
     time.sleep(second)
     if send_data == "byebye":
         break

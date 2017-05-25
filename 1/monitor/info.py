@@ -1,13 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-import psutil
-import datetime
-import socket
-import time
-import os
-from datetime import datetime
-
+import psutil  
 cpu = {'user' : 0, 'system' : 0, 'idle' : 0, 'percent' : 0}  
 mem = {'total' : 0, 'avaiable' : 0, 'percent' : 0, 'used' : 0, 'free' : 0}  
   
@@ -47,35 +41,16 @@ def get_disk_info():
         disk_used.append(disk_info.used)  
         disk_free.append(disk_info.free)  
         disk_percent.append(disk_info.percent)  
-            
-# mem_status = mem['percent']
-# get_disk_info()
-# for i in range(len(disk_id)):  
-# 	print (u'%s盘空闲率: %s %%' % (disk_id[i],100 - disk_percent[i]))
-# 	
-def sleepTime(hour,min,sec):
-	return (hour*3600 + min*60 + sec)
-# 在设定频率时，需要把时间加2秒钟，才为实际频率时间
-second = sleepTime(0,0,5)
-
-# socket客户端
-# 主动初始化与服务器端的连接
-sk = socket.socket()
-sk.connect(("127.0.0.1", 8888))
-while True:
-    get_cpu_info()
-    get_mem_info()
-    # get_disk_info()
-    # arr=0
-    # for i in range(len(disk_id)):  
-    #     arr=(u'%s盘空闲率: %s %%' % (disk_id[i],100 - disk_percent[i]))
-    #     print(arr)
-    send_data =  (u"%s_%s_%s" % (datetime.now(),cpu['percent'],mem['percent']))
-    sk.sendall(bytes(send_data, encoding="utf8"))
-    # 间隔5秒钟执行一次
-    time.sleep(second)
-    if send_data == "byebye":
-        break
-    accept_data = str(sk.recv(1024), encoding="utf8")
-    print("".join(("接收内容：", accept_data)))
-sk.close()
+          
+  
+if __name__ == '__main__':  
+    get_cpu_info()  
+    cpu_status = cpu['percent']  
+    print (u"CPU使用率: %s %%" % cpu_status) 
+    get_mem_info()  
+    mem_status = mem['percent']  
+    print (u"内存使用率: %s %%" % mem_status)  
+    get_disk_info()  
+    for i in range(len(disk_id)):  
+        print (u'%s盘空闲率: %s %%' % (disk_id[i],100 - disk_percent[i]))  
+    # input("Enter enter key to exit...")    
