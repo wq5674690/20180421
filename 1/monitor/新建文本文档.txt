@@ -1,3 +1,0 @@
-服务名称：dizasi
-好记的名称：Lenovo PM Service 
-描述：WCNCSVC 承载 Windows 立即连接配置，该配置是 Microsoft 执行的受 Wi-Fi 保护的设置(WPS)协议。该配置用于配置访问点(AP)或 Wi-Fi 设备的无线 LAN 设置。根据需要有计划地启动该服务。
