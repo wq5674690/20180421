@@ -26,11 +26,13 @@ class MyServer(socketserver.BaseRequestHandler):
                 str1=accept_data.split("_")
                 # str2=int(str1[1])
                 # print(type(str1))
+                # 把接收的字符串转化成float型数据进行判断
                 cpu_1=float(str1[1])
                 mem_1=float(str1[2])
                 cpu_max=50
                 mem_max=50
                 print(accept_data)
+                # 设置报警规则，并且把报警的内容记录到数据库中
                 if accept_data == "byebye":
                     break
                 send_data = bytes("ok", encoding="utf8")
