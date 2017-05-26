@@ -24,24 +24,45 @@ class MyServer(socketserver.BaseRequestHandler):
                 accept_data = str(conn.recv(1024), encoding="utf8")
                 # 把接收的信息用下滑线分割
                 str1=accept_data.split("_")
+                # str2=int(str1[1])
+                # print(type(str1))
+                cpu_1=float(str1[1])
+                mem_1=float(str1[2])
+                cpu_max=50
+                mem_max=50
                 print(accept_data)
                 if accept_data == "byebye":
                     break
                 send_data = bytes("ok", encoding="utf8")
                 conn.sendall(send_data)
-                # 使用 cursor() 方法创建一个游标对象 cursor
-                cursor = db.cursor()
-                # 插入记录
-                sql = "INSERT INTO MONITOR(send_date_time,accept_date_time, cpu, mem) VALUES ('%s','%s','%s', '%s')" % \
-                        (str1[0],datetime.now(),str1[1], str1[2])
-                try:
-                   # 执行sql语句
-                   cursor.execute(sql)
-                   # 执行sql语句
-                   db.commit()
-                except:
-                   # 发生错误时回滚
-                   db.rollback()
+                if (cpu_1>cpu_max or mem_1>mem_max):
+                    # 使用 cursor() 方法创建一个游标对象 cursor
+                    cursor = db.cursor()
+                    # 插入记录
+                    sql = "INSERT INTO MONITOR(send_date_time,accept_date_time, cpu, mem) VALUES ('%s','%s','%s', '%s')" % \
+                            (str1[0],datetime.now(),cpu_1, mem_1)
+                    try:
+                       # 执行sql语句
+                       cursor.execute(sql)
+                       # 执行sql语句
+                       db.commit()
+                    except:
+                       # 发生错误时回滚
+                       db.rollback()
+                elif (cpu_1==0 or mem_1==0):
+                    cursor = db.cursor()
+                    sql = "INSERT INTO MONITOR(send_date_time,accept_date_time, cpu, mem) VALUES ('%s','%s','%s', '%s')" % \
+                            (datetime.now(),datetime.now(),0, 0)
+                    try:
+                       # 执行sql语句
+                       cursor.execute(sql)
+                       # 执行sql语句
+                       db.commit()
+                    except:
+                       # 发生错误时回滚
+                       db.rollback()
+                else:
+                    pass
             conn.close()
         # 关闭数据库连接
         db.close()
