@@ -56,7 +56,7 @@ def get_disk_info():
 def sleepTime(hour,min,sec):
 	return (hour*3600 + min*60 + sec)
 # 在设定频率时，需要把时间加2秒钟，才为实际频率时间
-second = sleepTime(0,0,5)
+second = sleepTime(0,0,3)
 
 # socket客户端
 # 主动初始化与服务器端的连接
